@@ -109,6 +109,7 @@ module.exports.linkToSocialAccount = function linkToSocialAccount(opts) {
 	let req = opts.req;
 	let accessToken = opts.accessToken;
 	let refreshToken = opts.refreshToken;
+	let credentials = opts.credentials;
 	let profile = opts.profile;
 	let done = opts.done;
 	let provider = opts.provider;
@@ -127,10 +128,12 @@ module.exports.linkToSocialAccount = function linkToSocialAccount(opts) {
 					req.flash("error", { msg: req.t("SocialIDLinkedToOtherAccount") });
 					return done(err);
 				}
-				else
-					// Same user same account
-					return done(err, existingUser);
 
+				// Same user same account
+				existingUser.credentials = credentials;
+				existingUser.save(function(err) {
+					done(err, existingUser);
+				});
 			} else {
 				// Not found linked account. We create the link
 				User.findById(req.user.id, function(err, user) {
@@ -142,6 +145,7 @@ module.exports.linkToSocialAccount = function linkToSocialAccount(opts) {
 					user.profile.gender = user.profile.gender || userData.gender;
 					user.profile.picture = user.profile.picture || userData.picture;
 					user.profile.location = user.profile.location || userData.location;
+					user.credentials = credentials;
 
 					user.save(function(err) {
 						req.flash("info", { msg: req.t("AccountHasBeenLinked") });
@@ -152,88 +156,89 @@ module.exports.linkToSocialAccount = function linkToSocialAccount(opts) {
 		});
 		
 	} else {
-		
 		// No logged in user
 		let search = {};
 		search[`socialLinks.${provider}`] = profile.id;
 		User.findOne(search, function(err, existingUser) {
 
 			if (existingUser) {
-
 				// Check that the user is not disabled or deleted
 				if (existingUser.status !== 1) {
 					req.flash("error", { msg: req.t("UserDisabledOrDeleted")});
 					return done();
 				}
 				
-				return done(err, existingUser);
-			}
-
-			if (!email) {
-				// Not provided email address
-				req.flash("error", { msg: req.t("SocialMissingEmailAddress")});
-				return done();				
-			}
-
-			// If come back email address from social provider, search user by email
-			User.findOne({email: email}, function(err, existingEmailUser) {
-				if (existingEmailUser) {
-
-					// Check that the user is not disabled or deleted
-					if (existingEmailUser.status !== 1) {
-						req.flash("error", { msg: req.t("UserDisabledOrDeleted")});
-						return done();
-					}
-
-					// We found the user, update the profile
-					let user = existingEmailUser;
-					user.socialLinks = user.socialLinks || {};
-					user.socialLinks[provider] = profile.id;
-
-					user.profile = user.profile || {};
-					user.profile.name = user.profile.name || userData.name;
-					user.profile.gender = user.profile.gender || userData.gender;
-					user.profile.picture = user.profile.picture || userData.picture;
-					user.profile.location = user.profile.location || userData.location;
-
-					user.save(function(err) {
-						req.flash("info", { msg: req.t("AccountHasBeenLinked") });
-						done(err, user);
-					});
-
-					return;
-				}
-
-				// We don't find the user, it will be a signup
-
-				// Check the signup enabled
-				if (config.features.disableSignUp === true) {
-					req.flash("error", { msg: req.t("SignUpDisabledPleaseLogin") });
-					return done();
-				}
-
-				// Create a new user according to social profile
-				let user = new User();
-				user.fullName = userData.name;
-				user.email = email;
-				user.username = email; // username will be the e-mail address if signup with a social account. Because maybe conflict other exist user's username
-				user.provider = provider;
-				user.verified = true; // No need to verify a social signup
-				user.passwordLess = true; // No password for this account. He/she can login via social login or passwordless login
-
-				user.socialLinks = {};
-				user.socialLinks[provider] = profile.id;
-
-				user.profile = userData;
-
-				user.save(function(err) {
-					done(err, user);
+				existingUser.credentials = credentials;
+				existingUser.save(function(err) {
+					done(err, existingUser);
 				});
 
-			});
+			} else {
+				if (!email) {
+					// Not provided email address
+					req.flash("error", { msg: req.t("SocialMissingEmailAddress")});
+					return done();				
+				}
+	
+				// If come back email address from social provider, search user by email
+				User.findOne({email: email}, function(err, existingEmailUser) {
 
+					if (existingEmailUser) {
+	
+						// Check that the user is not disabled or deleted
+						if (existingEmailUser.status !== 1) {
+							req.flash("error", { msg: req.t("UserDisabledOrDeleted")});
+							return done();
+						}
+	
+						// We found the user, update the profile
+						let user = existingEmailUser;
+						user.socialLinks = user.socialLinks || {};
+						user.socialLinks[provider] = profile.id;
+	
+						user.profile = user.profile || {};
+						user.profile.name = user.profile.name || userData.name;
+						user.profile.gender = user.profile.gender || userData.gender;
+						user.profile.picture = user.profile.picture || userData.picture;
+						user.profile.location = user.profile.location || userData.location;
+						user.credentials = credentials;
+
+						user.save(function(err) {
+							req.flash("info", { msg: req.t("AccountHasBeenLinked") });
+							done(err, user);
+						});
+	
+						return;
+					}
+	
+					// We don't find the user, it will be a signup
+	
+					// Check the signup enabled
+					if (config.features.disableSignUp === true) {
+						req.flash("error", { msg: req.t("SignUpDisabledPleaseLogin") });
+						return done();
+					}
+	
+					// Create a new user according to social profile
+					let user = new User();
+					user.fullName = userData.name;
+					user.email = email;
+					user.username = email; // username will be the e-mail address if signup with a social account. Because maybe conflict other exist user's username
+					user.provider = provider;
+					user.verified = true; // No need to verify a social signup
+					user.passwordLess = true; // No password for this account. He/she can login via social login or passwordless login
+	
+					user.socialLinks = {};
+					user.socialLinks[provider] = profile.id;
+	
+					user.profile = userData;
+					user.credentials = credentials;
+
+					user.save(function(err) {
+						done(err, user);
+					});
+				});
+			}
 		});
 	}
-
-
 };

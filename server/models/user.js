@@ -132,6 +132,15 @@ let UserSchema = new Schema({
 		type: Number,
 		default: 1
 	},
+
+	credentials: {
+		access_token: { type: String }
+		, refresh_token: { type: String }
+		, token_type: { type: String }
+		, expiry_date: { type: Number }
+		, expires_in: { type: Number }
+		, id_token: { type: String }
+	},
 	
 	metadata: {}
 
@@ -187,17 +196,19 @@ UserSchema.virtual("avatar").get(function() {
 
 	// Generate a gravatar picture
 	if (!this.email)
-		return "https://gravatar.com/avatar/?s=64&d=wavatar";
+		return "https://gravatar.com/avatar/?s=128&d=wavatar";
 	
 	let md5 = crypto.createHash("md5").update(this.email).digest("hex");
-	return "https://gravatar.com/avatar/" + md5 + "?s=64&d=wavatar";
+	return "https://gravatar.com/avatar/" + md5 + "?s=128&d=wavatar";
 });
 
 /**
  * Encode `_id` to `code`
  */
-UserSchema.methods.encodeID = function() {
-	return hashids.encodeHex(this._id);
+UserSchema.methods.encodeID = function(id) {
+	// idEncode向けに引数を取るように修正
+	id = id || this._id;
+	return hashids.encodeHex(id);
 };
 
 /**

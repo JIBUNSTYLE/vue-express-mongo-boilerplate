@@ -11,15 +11,15 @@ module.exports = {
 	sessionSecret: "MB9x-hOkx-UdcCbOprxggu-Wv1PetuoqzBny1h8DULA",
 
 	mailer: {
-		from: "noreply@vem-app.com",
+		from: "noreply@jibunstyle.com",
 
 		transport: "smtp",
 		smtp: {
-			host: "mailtrap.io",
-			port: 2525,
+			host: "smtp.gmail.com",
+			port: 465,
 			auth: {
-				user: "367335eaa82697636",
-				pass: "e5a76af9b056d0"
+				user: "noreply@jibunstyle.com",
+				pass: ""
 			}
 		}
 	},

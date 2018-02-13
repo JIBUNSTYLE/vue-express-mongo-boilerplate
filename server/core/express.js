@@ -129,7 +129,7 @@ function initI18N(app) {
 	let conf = {
 		//debug: true,
 		fallbackLng: "en",
-		whitelist: ["en", "hu"],
+		whitelist: ["en", "ja", "hu"],
 		ns: ["app", "frontend"],
 		defaultNS: "frontend",
 		load: "all",
@@ -150,7 +150,7 @@ function initI18N(app) {
 
 	// In test mode only English enabled!
 	if (config.isTestMode()) {
-		conf.whitelist = ["en"];
+		conf.whitelist = ["ja"];
 	}
 
 	i18next

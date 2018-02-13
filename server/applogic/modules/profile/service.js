@@ -20,7 +20,7 @@ module.exports = {
 		role: "user",
 		collection: User,
 
-		modelPropFilter: "code username fullName email avatar passwordLess provider profile socialLinks roles apiKey lastLogin locale status createdAt updatedAt"
+		modelPropFilter: "code username fullName email avatar passwordLess provider profile socialLinks roles apiKey lastLogin locale status credentials createdAt updatedAt"
 	},
 	
 	actions: {

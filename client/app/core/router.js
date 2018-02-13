@@ -3,23 +3,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Home from "../modules/home";
-import Counter from "../modules/counter";
-import Devices from "../modules/devices";
-import Posts from "../modules/posts";
+import MyTasks from "../modules/mytasks";
 import Profile from "../modules/profile";
+import Settings from "../modules/settings";
+import Debug from "../modules/debug";
 
 Vue.use(VueRouter);
 
 export default new VueRouter({
 	mode: "hash",
 	routes: [
-		{ path: "/", component: Home },
-		{ path: "/devices", component: Devices },
-		{ path: "/posts", component: Posts },
-		{ path: "/counter", component: Counter },	
-		{ path: "/profile", component: Profile }
-		// { path: "/users", component: User, meta: { needRole: "admin" } },
-		//{ path: "*", component: NotFound }
+		{ path: "/", component: MyTasks }
+		, { path: "/profile", component: Profile }
+		, { path: "/settings", component: Settings }
+		, { path: "/debug", component: Debug }
+		
+		//, { path: "/users", component: User, meta: { needRole: "admin" } }
+		// , { path: "*", component: NotFound }
 	]
 });

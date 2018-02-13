@@ -15,8 +15,8 @@ if (WEBPACK_BUNDLE) {
 	if (process.argv.length > 0)
 		bundleFullPath = process.argv[1];
 	else
-		bundleFullPath = process.cwd();
 		// bundleFullPath = path.dirname(process.argv[0]);
+		bundleFullPath = process.cwd();
 	
 	global.rootPath = path.normalize(path.join(path.dirname(bundleFullPath), ".."));
 }

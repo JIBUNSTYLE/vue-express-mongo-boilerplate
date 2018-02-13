@@ -16,11 +16,16 @@ module.exports = {
 			"lodash",
 			"moment",
 			"jquery",
+			"jquery-ui",
+			"bootstrap",
+			"eonasdan-bootstrap-datetimepicker",
 			"axios",
 			"toastr",
 			"vue-form-generator",
 			"vue-websocket",
 			"apollo-client",
+			"apollo-cache-inmemory",
+			"apollo-link-http",
 			"graphql-tag",
 			"i18next"
 		],
@@ -103,5 +108,10 @@ module.exports = {
 	},
 
 	plugins: [
+		new webpack.ProvidePlugin({
+			$: "jquery"
+			, jQuery: "jquery"
+			, "window.$" : "jquery"
+		})
 	]
 };

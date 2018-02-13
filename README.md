@@ -6,21 +6,22 @@
 ![Node 6](https://img.shields.io/badge/node-6.x.x-green.svg)
 ![VueJS 2](https://img.shields.io/badge/vuejs-2.3.x-green.svg)
 ![Webpack 2](https://img.shields.io/badge/webpack-2.6.x-green.svg)
+[![Trace](https://resources.risingstack.com/Monitored+with+Trace+by+RisingStack.svg)](https://trace.risingstack.com/?utm_source=opensource&utm_medium=Icebob)
 
-This is a full stack webapp boilerplate project with VueJS + ExpressJS + MongoDB. It is NOT an out-of-box project. 
-I make it in order to create an up-to-date starter repo which contains all important functions (user signup, login, oauth, profile, ...etc) except the business-logic. So when neccessary I can create a new webapp and only need to develop the business logic.
+This is a full stack webapp boilerplate project with VueJS + ExpressJS + MongoDB. NOT an out-of-box project. 
+The goal is to create an up-to-date starter repo which contains all important functions (user signup, login, oauth, profile, ...etc) except the business-logic. So when neccessary I can create a new webapp and only need to develop the business logic.
 
 *This is just my personal boilerplate, it may or may not be a good fit for your project(s).*
 Inspired by [dstroot/skeleton](https://github.com/dstroot/skeleton) and [sahat/hackathon-starter](https://github.com/sahat/hackathon-starter)
 
 **If you like my work, please [donate](https://www.paypal.me/meregnorbert). Thank you!**
 
-### [Live Demo](http://vemapp.moleculer.services/) (login: test/test1234 or sign-up)
+### [Live Demo](http://vemapp.e-paper.space/) (login: test/test1234 or sign-up)
 
 ## Features
 
 **Server-side**
-* [x] **[Node.JS](https://nodejs.org)** v6.x.x
+* [x] **[Node.JS](https://nodejs.org)** v8.x.x
 * [x] **[Express](https://github.com/expressjs/express)**
 * [x] [MongoDB](https://www.mongodb.com/) with [Mongoose](https://github.com/Automattic/mongoose)
 * [x] [NodeMailer](https://github.com/nodemailer/nodemailer) with SMTP, MailGun or SendGrid
@@ -30,7 +31,7 @@ Inspired by [dstroot/skeleton](https://github.com/dstroot/skeleton) and [sahat/h
 * [x] **[GraphQL](http://graphql.org/)** with [Apollo stack](http://www.apollostack.com/)
 * [x] [i18next](http://i18next.com/) as the internationalization ecosystem
 * [x] **[HTTP/2 Server Push](https://en.wikipedia.org/wiki/HTTP/2_Server_Push)** with [netjet](https://github.com/cloudflare/netjet)
-* [x] Bundled server-side code with [Webpack 2](https://webpack.github.io/)
+* [x] Bundled server-side code with [Webpack 3](https://webpack.github.io/)
 
 **Client-side**
 * [x] **[VueJS 2.x](https://github.com/vuejs/vue)**
@@ -40,7 +41,7 @@ Inspired by [dstroot/skeleton](https://github.com/dstroot/skeleton) and [sahat/h
 * [x] **[socket.io](https://github.com/socketio/socket.io) connection with namespaces & authorization**
 * [x] [vue-websocket](https://github.com/icebob/vue-websocket)
 * [x] [Jade](https://github.com/pugjs/pug)
-* [x] **[Webpack 2](https://github.com/webpack/webpack)**
+* [x] **[Webpack 3](https://github.com/webpack/webpack)**
 * [x] [SCSS](http://sass-lang.com/)
 * [x] [PostCSS](https://github.com/postcss/postcss) with precss and autoprefixer
 * [x] [Babel](https://babeljs.io/)
@@ -117,11 +118,9 @@ $ docker-compose up
 +---client
 |   +---app
 |   |   +---core
+|   |   |   +---components
 |   |   +---modules
-|   |       +---demo
-|   |       +---devices
-|   |       +---home
-|   |       +---posts
+|   |       +---mytasks
 |   |       +---session
 |   |                   
 |   +---frontend
@@ -137,9 +136,7 @@ $ docker-compose up
 |   +---applogic
 |   |   +---libs
 |   |   +---modules
-|   |       +---counter
-|   |       +---devices
-|   |       +---posts
+|   |       +---tasks
 |   |       +---session
 |   +---config
 |   |       default.js
@@ -151,6 +148,7 @@ $ docker-compose up
 |   +---libs
 |   +---locales
 |   |   +---en
+|   |   +---ja
 |   |   +---hu
 |   +---models
 |   |       user.js
@@ -257,8 +255,7 @@ These are the instructions for Twitter:
 
 vue-express-mongo-boilerplate is available under the [MIT license](https://tldrlegal.com/license/mit-license).
 
-## Contact
+## Copyright
 
 Copyright (C) 2016 Icebob
-
-[![@icebob](https://img.shields.io/badge/github-icebob-green.svg)](https://github.com/icebob) [![@icebob](https://img.shields.io/badge/twitter-Icebobcsi-blue.svg)](https://twitter.com/Icebobcsi)
+Copyright (C) 2018 JIBUNSTYLE Inc.

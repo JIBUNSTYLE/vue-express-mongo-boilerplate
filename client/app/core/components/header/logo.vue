@@ -2,14 +2,13 @@
 	.logo
 		a.nav-item(href="#")
 			span 
-				strong VEM
-				| App
+				strong Taschel
 </template>
 
 <script>
 
 	export default {
-
+		name: "Logo"
 	};
 	
 </script>

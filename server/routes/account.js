@@ -158,7 +158,7 @@ module.exports = function(app, db) {
 						else {
 							req.flash("error", { msg: req.t("UserSaveError") });
 							done(err, user);
-							return
+							return;
 						}
 						field = field.split(" dup key")[0];
 						field = field.substring(0, field.lastIndexOf("_"));						

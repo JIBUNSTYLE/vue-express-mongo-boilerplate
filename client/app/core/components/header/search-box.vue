@@ -9,7 +9,8 @@
 	import { mapGetters, mapActions } from "vuex";
 
 	export default {
-		computed: {
+		name: "SearchBox"
+        , computed: {
 			...mapGetters("session", [
 				"searchText"
 			]),

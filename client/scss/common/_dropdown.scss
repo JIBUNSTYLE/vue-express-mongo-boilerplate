@@ -1,7 +1,7 @@
 $dropDownBgColor: $menuBgColor;
 $dropDownTextColor: $headerTextColor;
 
-.dropdown-menu {
+.dropdown-menu:not(.bootstrap-datetimepicker-widget) {
 	// Default collapsed (hidden)
 	visibility: hidden;
 	opacity: 0;

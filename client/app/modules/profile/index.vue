@@ -29,7 +29,7 @@
 
 				hr.full
 		pre(v-html="this.$options.filters.prettyJSON(profile)")
-
+		button.button.primary(@click="enableCalendar") Enable Calendar
 </template>
 
 <script>
@@ -40,16 +40,26 @@
 	export default {
 		computed: mapGetters("profile", [
 			"profile"
-		]),
-
-		methods: {
+		])
+		, watch : {
+			profile(newProfile) {
+				console.log("● newProfile", newProfile);
+				if (newProfile.googleAuthUrl) {
+					window.location.href = newProfile.googleAuthUrl;
+				}
+			}
+ 		}
+		, methods: {
 			...mapActions("profile", [
 				"getProfile"
+				, "updateProfile"
 			])
-		},
-
-		created() {
-			this.$service = new Service("profile", this); 
+			, enableCalendar() {
+				this.updateProfile({ model: this.profile, mutation: "UPDATE" });
+			}
+		}
+		, created() {
+			//this.$service = new Service("profile", this); 
 			
 			// Get my profile
 			this.getProfile(); 

@@ -13,8 +13,9 @@ function install(Vue, callback, options = {}) {
 		.use(i18NextLanguageDetector)
 		.init(defaultsDeep({}, {
 			//lng: "hu",
+			lng: "ja",
 			fallbackLng: "en",
-			whitelist: ["en", "hu"],
+			whitelist: ["en", "ja", "hu"],
 			ns: ["app"],
 			defaultNS: "app",
 			load: "languageOnly",

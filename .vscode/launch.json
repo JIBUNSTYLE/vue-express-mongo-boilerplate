@@ -8,7 +8,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch in Dev mode",
-			"program": "${workspaceRoot}\\server\\index.js",
+			"program": "${workspaceRoot}/server/index.js",
 			"cwd": "${workspaceRoot}",
 			"env": {
 				"NODE_ENV": "development"
@@ -18,7 +18,7 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch in Test mode",
-			"program": "${workspaceRoot}\\server\\index.js",
+			"program": "${workspaceRoot}/server/index.js",
 			"cwd": "${workspaceRoot}",
 			"env": {
 				"NODE_ENV": "test"
@@ -31,12 +31,12 @@
 			"port": 5858,
 			"restart": true
 		},
-		 {
+		{
             "name": "Launch browser with sourcemaps",
             "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:4000/",
-            "webRoot": "${workspaceRoot}client",
+            "url": "http://localhost:3000/",
+            "webRoot": "${workspaceRoot}/client",
             "sourceMaps": true
         }
 	]

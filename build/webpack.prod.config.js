@@ -5,7 +5,6 @@ let webpack = require("webpack");
 
 let merge = require("webpack-merge");
 let baseWpConfig = require("./webpack.base.config");
-//let StatsPlugin = require("stats-webpack-plugin");
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = merge(baseWpConfig, {
@@ -68,10 +67,5 @@ module.exports = merge(baseWpConfig, {
 		}),
 
 		new ExtractTextPlugin("styles/[name].css")
-
-		/*new StatsPlugin(path.resolve(__dirname, "stats.json"), {
-			chunkModules: true
-			//exclude: [/node_modules[\\\/]react/]
-		})*/
 	]
 });

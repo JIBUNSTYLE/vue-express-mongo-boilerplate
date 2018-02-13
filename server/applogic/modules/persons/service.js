@@ -26,7 +26,7 @@ module.exports = {
 	
 	actions: {
 		// return all model
-		/*find: {
+		find: {
 			cache: true,
 			handler(ctx) {
 				return ctx.queryPageSort(User.find({})).exec().then( (docs) => {
@@ -36,7 +36,7 @@ module.exports = {
 					return this.populateModels(json);					
 				});
 			}
-		},*/
+		},
 
 		// return a model by ID
 		get: {
@@ -66,8 +66,6 @@ module.exports = {
 				roles: [String]
 				avatar: String
 				lastLogin: Timestamp
-
-				posts(limit: Int, offset: Int, sort: String): [Post]
 			}
 		`,		
 
@@ -81,12 +79,7 @@ module.exports = {
 			},
 
 			Person: {
-				posts(person, args, context) {
-					let ctx = context.ctx;
-					let postService = ctx.services("posts");
-					if (postService)
-						return postService.actions.find(ctx.copy(Object.assign(args, { author: person.code })));
-				}
+
 			}
 		}
 	}

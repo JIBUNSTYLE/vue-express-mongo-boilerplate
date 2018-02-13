@@ -19,7 +19,7 @@ module.exports = {
 		//keywords: "boilerplate, starter, webapp",
 		//url: "http://localhost:3000/",
 		//googleAnalyticsID: 'UA-xxxxx-x',
-		//contactEmail: "hello@vem-app.com"
+		//contactEmail: "info@jibunstyle.com"
 	},
 
 	// ip: process.env.NODE_IP || "0.0.0.0",
@@ -46,7 +46,7 @@ module.exports = {
 
 	// Mail sending settings
 	mailer: {
-		//from: "noreply@vem-app.com",
+		//from: "noreply@jibunstyle.com",
 
 		/*
 		transport: "smtp",

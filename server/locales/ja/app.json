@@ -1,0 +1,47 @@
+{
+    "Add": "新規",
+    "Close": "クローズ",
+    "Breakdown": "Breakdown",
+    "Next": "Next",
+    "Skip": "Skip",
+    
+    "TaskType": "Taskタイプ",
+    "Name": "名前",
+    "TaskNamePlaceholder": "Taskの内容が分かるように",
+    "Purpose": "目的",
+    "TaskPurposePlaceholder": "何のためにするのか",
+    "Goal": "ゴール",
+    "TaskGoalPlaceholder": "どんな状態になったら終わりと言えるか／嬉しいか",
+    "Deadline": "期日",
+    "Timeframe": "工数",
+    "Asignee": "担当",
+    "Author": "作成",
+    "LastCommunication": "最終履歴",
+    
+    "WorkDetail": "内容",
+    "WorkName": "work名",
+    "WorkGoal": "ゴール",
+
+    "Closing": "完了報告",
+    "Start": "実開始時刻",
+    "StartPlaceholder": "実際の開始時刻（→ のアイコンをクリック）",
+    "End": "実終了時刻",
+    "EndPlaceholder": "実際の終了時刻（→ のアイコンをクリック）",
+    "DescriptionPlaceholder": "実施した内容の要点をまとめて",
+    
+    "ReviewOfWorks": "作業の振返り",
+    "GoodSide": "良かった側面",
+    "GoodSidePlaceholder": "なぜできたのか？／奏功した／工夫した／達成感があった／成長を感じた／他のメンバに共有したい気付き",
+    "BadSide": "悪かった側面",
+    "BadSidePlaceholder": "詰まったこと／予期せぬこと／気が乗らなかった／助けてもらった／気付き",
+    "Improvement": "改善案",
+    "ImprovementPlaceholder": "パフォーマンスを改善するには？／より伸ばすためにできること",
+    
+    "HighOrderReview": "1日通しての振返り",
+    "HighOrderAwakening": "1日を客観的に見た感想",
+    "HighOrderAwakeningPlaceholder": "一つ高い視点から見た気付き／パターン",
+
+    "GroupType": "GroupType",
+    "GroupNamePlaceholder": "GroupNamePlaceholder",
+    "GroupPurposePlaceholder": "GroupPurposePlaceholder"
+}

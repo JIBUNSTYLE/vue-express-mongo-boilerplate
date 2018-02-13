@@ -192,8 +192,39 @@ class Service {
 	 * 
 	 * @memberOf Service
 	 */
-	populateModels(docs, populateSchema) {
+	populateModels(docs, excludeRule = null, populateSchema, encodeSchema) {
 		populateSchema = populateSchema || this.$settings.modelPopulates; 
+		encodeSchema = encodeSchema || this.$settings.idEncodes;
+
+		// 生idで持っている値をencodeして返すための処理
+		if (docs != null && encodeSchema) {
+			_.forIn(encodeSchema, (serviceName, field) => {
+				if (_.isString(serviceName)) {
+					let service = Services.get(serviceName);
+					if (service && _.isFunction(service["encodeID"])) {
+						let items = _.isArray(docs) ? docs : [docs]; 
+						items.forEach(doc => {
+							let value = doc[field];
+							if (value == undefined) return;
+							if (_.isArray(value)) {
+								doc[field] = value.map((v) => {
+									if ( v > 0 ) {
+										return service.encodeID(v);
+									} else {
+										return null;
+									}
+								});
+							} else {
+								if ( value > 0 ) {
+									doc[field] = service.encodeID(value);
+								}
+							}
+						});
+					}
+				}
+			});
+		}
+
 		if (docs != null && populateSchema) {
 			let promises = [];
 			_.forIn(populateSchema, (serviceName, field) => {
@@ -201,8 +232,8 @@ class Service {
 					let service = Services.get(serviceName);
 					if (service && _.isFunction(service["getByID"])) {
 						let items = _.isArray(docs) ? docs : [docs]; 
-						items.forEach((doc) => {
-							promises.push(service.getByID(doc[field]).then((populated) => {
+						items.forEach(doc => {
+							promises.push(service.getByID(doc[field], excludeRule).then(populated => {
 								doc[field] = populated;
 							}));
 						});
@@ -216,8 +247,8 @@ class Service {
 				});
 			}
 		}
-		return Promise.resolve(docs);		
-	}	
+		return Promise.resolve(docs);	
+	}
 
 	/**
 	 * Get model(s) by ID(s). The `id` can be a number or an array with IDs.
@@ -225,7 +256,7 @@ class Service {
 	 * @param {Number|Array} id
 	 * @returns {Object|Array} JSON object(s)
 	 */
-	getByID(id) {
+	getByID(id, excludeRule = null) {
 		if (this.collection == null || id == null)
 			return Promise.resolve();
 
@@ -241,7 +272,7 @@ class Service {
 			else
 				return null;				
 		})
-		.then((data) => {
+		.then(data => {
 			if (data)
 				return data;
 			
@@ -251,17 +282,40 @@ class Service {
 			} else
 				query = this.collection.findById(id);
 
-			return query.exec().then((docs) => {
-				return this.toJSON(docs);
-			})
-			.then((json) => {
-				return this.populateModels(json);
-			})
-			.then((json) => {
-				// Save to cache
-				if (cacheKey)
-					this.putToCache(cacheKey, json);
+			return query.exec().then(docs => {
+				if (_.isArray(docs)) {
+					// the result of find, array will be cahnged to be ascendant of _id,
+					// so unmaking original scequences.
+					let _docs = docs.reduce((obj, d) => { 
+						obj[d._id] = d;
+						return obj;
+					}, {});
+					let reorderedDocs = id.map(id => _docs[id]);
+					const jsons = this.toJSON(reorderedDocs);
+					if (excludeRule) {
+						return jsons.filter(j => { return excludeRule(this.name, j); });
+					} else {
+						return jsons;
+					}
+				}
 
+				const json = this.toJSON(docs);
+				if (excludeRule) {
+					return excludeRule(this.name, json) ? json : null;
+				} else {
+					return json;
+				}
+			})
+			.then(json => {
+				return this.populateModels(json, excludeRule);
+			})
+			.then(json => {
+				// Save to cache
+				if (cacheKey) {
+					// After caching, if the returned json was modified, cached json also would change.
+					// So caching the clone json.
+					this.putToCache(cacheKey, _.cloneDeep(json));
+				}
 				return json;
 			});
 		});			
@@ -387,7 +441,19 @@ class Service {
 
 		// Clear cached values
 		this.clearCache();
-	}		
+	}
+
+	// Kanban/WeeklyのDefaultBoardがない場合のSocket通知
+	notifyNotSetupYet(ctx) {
+		console.log("● notifyNotSetupYet");
+		// Send notification via socket
+		ctx.notifyChanges("empty", [], this.$settings.role);
+
+		Services.emit(this.name + ":empty", { ctx: ctx, payload: [] });
+
+		// Clear cached values
+		this.clearCache();
+	}
 
 	/**
 	 * Get a service by name of service

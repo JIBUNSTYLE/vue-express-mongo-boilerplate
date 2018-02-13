@@ -5,14 +5,14 @@ let config 	= require("../../../config");
 let helper 	= require("../helper");
 
 let passport 		= require("passport");
-let GoogleStrategy  = require("passport-twitter").Strategy;
+let TwitterStrategy = require("passport-twitter").Strategy;
 let User 			= require("../../../models/user");
 
 // https://apps.twitter.com/app/new
 module.exports = function() {
 	if (config.authKeys.twitter.clientID && config.authKeys.twitter.clientSecret) {
 
-		passport.use("twitter", new GoogleStrategy({
+		passport.use("twitter", new TwitterStrategy({
 			consumerKey: config.authKeys.twitter.clientID,
 			consumerSecret: config.authKeys.twitter.clientSecret,
 			callbackURL: "/auth/twitter/callback",

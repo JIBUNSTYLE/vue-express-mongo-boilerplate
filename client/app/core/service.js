@@ -1,20 +1,15 @@
 import axios from "axios";
 import IO from "socket.io-client";
 import gql from "graphql-tag";
-import ApolloClient, { createNetworkInterface } from "apollo-client";
+import { ApolloClient } from "apollo-client";
+import { HttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
 
 window.gql = gql; // debug
 
-// Create the apollo client for GraphQL
-const networkInterface = createNetworkInterface({
-	uri: "/graphql",
-	opts: {
-		credentials: "same-origin"
-	}
-});
-
 const apolloClient = new ApolloClient({
-	networkInterface
+	link : new HttpLink({ uri: "/graphql", credentials: "same-origin" }),
+	cache: new InMemoryCache()
 });
 
 export default class Service {
@@ -95,7 +90,7 @@ export default class Service {
 		});
 	}
 
-	/* 
+	/* 	
 		Example:
 			window.counterService.query(gql`query($code: String!) {post(code: $code) { code title } }`, { code: "Jk8Pqb5MAN" })
 	*/

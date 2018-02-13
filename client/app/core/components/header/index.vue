@@ -18,7 +18,8 @@
 	import UserBox from "./user-box";
 
 	export default {
-		components: {
+		name: "PageHeader"
+        , components: {
 			Logo,
 			SearchBox,
 			UserBox

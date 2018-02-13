@@ -11,7 +11,7 @@ module.exports = {
 		keywords: pkg.keywords.join(","),
 		url: "http://localhost:" + (process.env.PORT || 3000) + "/",
 		//googleAnalyticsID: 'UA-xxxxx-x',
-		contactEmail: "hello@vem-app.com"
+		contactEmail: "indo@jibunstyle.com"
 	},
 
 	ip: process.env.NODE_IP || "0.0.0.0",
@@ -47,6 +47,7 @@ module.exports = {
 	test: false,
 
 	db: {
+		useMongoClient: true,
 		uri: process.env.MONGO_URI || "mongodb://localhost/" + pkg.config.dbName + "-dev",
 		options: {
 			user: "",
@@ -65,13 +66,13 @@ module.exports = {
 		options: null
 	},
 
-	cacheTimeout: 5 * 60, // 5 mins
+	cacheTimeout: null, //5 * 60, // 5 mins
 
 	mailer: {
 		enabled: false, // change this flag to true to turn emailing feature on.
 		
 		//if enabled = true make sure to configure one of the methods below
-		from: "noreply@vem-app.com"
+		from: "noreply@jibunstyle.com"
 		/*
 		transport: "smtp",
 		smtp: {

@@ -10,6 +10,7 @@ baseWpConfig.entry.app.unshift("webpack-hot-middleware/client");
 baseWpConfig.entry.frontend.unshift("webpack-hot-middleware/client");
 
 module.exports = merge(baseWpConfig, {
+	mode: 'none',
 	devtool: "#inline-source-map",
 
 	module: {
@@ -21,7 +22,10 @@ module.exports = merge(baseWpConfig, {
 			{
 				test: /\.vue$/,
 				loader: "vue-loader"
-			}			
+			}, {
+				test: /\.pug$/,
+				loader: 'pug-plain-loader'
+			}
 		]
 	},
 

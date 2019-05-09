@@ -1,4 +1,4 @@
-"use strict";
+	"use strict";
 
 let path = require("path");
 let pkg = require("../../package.json");
@@ -52,11 +52,8 @@ module.exports = {
 		options: {
 			user: "",
 			pass: "",
-			server: {
-				socketOptions: {
-					keepAlive: 1
-				}
-			}
+			keepAlive: 1,
+			useNewUrlParser: true
 		}
 	},
 
@@ -70,7 +67,7 @@ module.exports = {
 
 	mailer: {
 		enabled: false, // change this flag to true to turn emailing feature on.
-		
+
 		//if enabled = true make sure to configure one of the methods below
 		from: "noreply@jibunstyle.com"
 		/*
@@ -134,7 +131,7 @@ module.exports = {
 		twitter: {
 			clientID: null,
 			clientSecret: null
-		}		
+		}
 	},
 
 	logging: {
@@ -173,17 +170,17 @@ module.exports = {
 			token: null,
 			subdomain: null
 		},
-		
+
 		logsene: {
 			enabled: false,
 			token: null
 		},
-		
+
 		logzio: {
 			enabled: false,
 			token: null
 		}
-		
+
 	},
 
 	agendaTimer: "one minute"

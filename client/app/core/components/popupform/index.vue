@@ -47,7 +47,6 @@
 	import "eonasdan-bootstrap-datetimepicker";
 	import "ion-rangeslider";
 	import "ion-rangeslider/css/ion.rangeSlider.css"
-	import "ion-rangeslider/css/ion.rangeSlider.skinFlat.css"
 	
 	
 	import { schema as schemaUtils } from "vue-form-generator";

@@ -29,6 +29,7 @@ tests/e2e/reports
 # https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
 npm-debug.log
+package-lock.json
 
 # SASS temp files
 .sass-cache
@@ -68,3 +69,8 @@ typings
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# IDEA
+.idea
+*.iml
+

@@ -12,9 +12,9 @@ let personService;
 
 module.exports = {
 	settings: {
-		name: "session",
+		name: "sessions",
 		version: 1,
-		namespace: "session",
+		namespace: "sessions",
 		rest: true,
 		ws: true,
 		graphql: true,

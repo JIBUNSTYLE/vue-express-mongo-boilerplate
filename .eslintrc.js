@@ -8,7 +8,10 @@ module.exports = {
         "mocha": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/recommended"
+    ],
     "parserOptions": {
         "sourceType": "module"
     },

@@ -48,7 +48,7 @@
 					window.location.href = newProfile.googleAuthUrl;
 				}
 			}
- 		}
+		}
 		, methods: {
 			...mapActions("profile", [
 				"getProfile"
@@ -62,7 +62,7 @@
 			//this.$service = new Service("profile", this); 
 			
 			// Get my profile
-			this.getProfile(); 
+			this.getProfile();
 		}
 	};
 

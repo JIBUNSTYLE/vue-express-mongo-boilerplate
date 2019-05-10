@@ -1,4 +1,12 @@
 
+# Environment
+
+| product   | version               |
+|-----------|-----------------------|
+| NodeJS    | v10.15.3 ***must**    | 
+| npm       | 6.4.1                 |
+| yarn      | 1.15.2                |
+
 # Architecture
 
 Domain Driven Design (Specified Clean Architeture) with Atomic Design.

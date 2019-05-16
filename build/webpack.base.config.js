@@ -102,7 +102,11 @@ module.exports = {
 		alias: {
 			"images": path.resolve(__dirname, "..", "client", "images"),
 			"vue$": "vue/dist/vue.common.js"
-		}
+		},
+		modules: [
+			path.resolve("./client/app"),
+			path.resolve("./node_modules")
+		]
 	},
 
 	performance: {

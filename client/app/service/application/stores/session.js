@@ -33,10 +33,10 @@ export default {
 	, actions : {
 		[サービスの利用を開始する]({ commit }) {
 			return sessions.get()
-			.then(data => {
-				let user = new User(data);
-				commit(SET_USER, user);
-			});
+				.then(data => {
+					let user = new User(data);
+					commit(SET_USER, user);
+				});
 		}
 	}
 };

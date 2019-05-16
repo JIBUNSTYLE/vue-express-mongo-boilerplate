@@ -161,6 +161,19 @@ axiosをラップしたRESTfulなAPI Client。
 
 # ローカルでの開発について
 
+## importについて
+
+webpackでPathのしてをしているので、
+- js部分は client/app または node_modules をルートに
+- scss部分は client/scss または node_modules をルートに
+
+指定できるようにしている。
+
+[参考](https://zukucode.com/2017/04/webpack-absolute-path.html)
+[参考](https://befool.co.jp/blog/8823-scholar/react-webpack-path-resolver/)
+
+
+
 ## 既知のエラー
 
 ### ブラウザの開発者ツール上

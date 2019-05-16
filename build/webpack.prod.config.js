@@ -41,8 +41,15 @@ module.exports = merge(baseWpConfig, {
 									sourceMap: true,
 									importLoader: 2
 								}*/
-							},
-							"sass-loader"
+							}, {
+								loader: "sass-loader",
+								options: {
+									includePaths: [
+										path.resolve(__dirname, "..", "client", "scss"),
+										path.resolve(__dirname, "..", "node_modules")
+									]
+								}
+							}
 						]
 					}
 				}

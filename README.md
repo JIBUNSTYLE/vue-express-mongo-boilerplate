@@ -41,11 +41,115 @@ Domain Driven Design (Specified Clean Architeture) with Atomic Design.
 | atoms			| system/components/`atoms`/xxx.vue			| -					| VueComponent  | vuex禁止												                                |
 | molecules		| system/components/`molecules`/xxx.vue		| -					| VueComponent  | vuex禁止												                                |
 | organisms		| system/components/`organisms`/xxx.vue		| -					| VueComponent  | vuex禁止												                                |
-| templates		| service/presentation/xxx/`view.vue`		| Controllers		| VueComponent  | ユーザからの入力をPresenterに渡す。vuexはgetterは呼んで良い（action/mutationは禁止）          |
-| pages 		| service/presentation/xxx/`presenter.vue`	| Presenters		| VueComponent  | Usecaseの結果をViewに反映する。action（mutation）を呼んで良い。router.jsでRoutingする対象。   |
+| templates		| service/presentation/xxx/`view.vue`		| Controllers		| VueComponent  | ユーザからの入力をPresenterに渡す。vuexはgetterは呼んで良い（action/mutationは禁止）。          |
+| pages 		| service/presentation/xxx/`presenter.vue`	| Presenters		| VueComponent  | Usecaseの結果をViewに反映する。action（mutation）を呼んで良い。router.jsでRoutingする対象。もし Entity を import してインスタンス生成などしていたら、その処理は ApplicationServiceの範疇なので Interactor でやらせる。  |
 | -				| service/application/`stores`/xxx.js		| Interactors		| Store         | Usecaseを実現する。ApplicationService。					                              |
-| -				| service/domain/`entities`/xxx.js			| Entities			| -             | DomainModel。											                                |
+| -				| service/domain/`entities`/xxx.js			| Entities			| -             | DomainModel。ドメイン知識による業務ロジックはここに持たせる。		                            |
 
+
+## Presenter
+
+```presenter.vue
+<template lang="pug">
+	//- hogehoge-view(:schema="schema", :entity="entity" @add="onAdd" @select="onSelect")
+	hogehoge-view
+</template>
+<script>
+	import Vue from "vue";
+    import AbstractPresenter from "system/mixins/abstractPresenter";
+	import HogehogeView from "./view"
+
+    import Task from "service/domain/entities/task";
+	
+	// import schema from "./schema";
+    import { mapActions } from "vuex";
+
+    import { 
+        ユースケース
+	} from "service/application/usecases";
+    
+	const _ = Vue.prototype._;
+
+	export default {
+		name : "Hogehoge"
+		, mixins : [ AbstractPresenter ]
+		, components : {
+			HogehogeView
+		}
+		, data() {
+			return {
+				schema: schema
+				, entity: null
+			};
+		}
+		, methods : {
+            ...mapActions({
+                ユースケース
+			})
+			// イベントハンドラはここに記述
+			// , onAdd() { ... }
+			// , onSelect() { ... }
+		}
+		, created() {
+			this.pushCrumb({ id: this._uid, name: _("Hogehoge") });
+		}
+		, sessionEnsured(me) {
+			// セッションが準備できた時に呼ばれる（AbstractPresenterで定義）
+		}
+	};
+</script>
+```
+
+```view.vue
+<template lang="pug">
+	.container
+		.flex.align-center.justify-space-around
+			.left
+				button.button.is-primary(@click="$emit('add')")
+					i.icon.fa.fa-plus 
+					| {{ _("AddTask") }}
+			.right
+		data-table(:schema="schema", :rows="tasks", :order="order", :selectedRows="[entity]" @select="selectButtonDidPush")
+</template>
+<script>
+	import Vue from "vue";
+    import AbstractView from "system/mixins/abstractView";
+    
+    import { mapGetters } from "vuex";
+    
+	const _ = Vue.prototype._;
+
+	export default {
+		mixins : [ AbstractView ]
+        , props: {
+			schema : {
+				type: Object
+				, validator: function(value) { return true; } // TODO
+			}
+			, entity : {
+				type: Object
+				, validator: (value) => { return true; } // TODO
+			}
+        }
+		, computed : {
+			...mapGetters([
+				"tasks"
+			])
+		}
+		, data() {
+			return {
+				order : {}
+			};
+		}
+		, methods : { 
+			selectButtonDidPush(entity) {
+				this.$emit("select", entity);
+			}
+		}
+	};
+</script>
+<style lang="scss" scoped></style>
+```
 
 ## Infrastructure
 
@@ -70,3 +174,39 @@ Refused to apply style from 'http://localhost:3000/app/styles/app.css' because i
 ```
 GET http://localhost:3000/app/images/icon/manifest.json 404 (Not Found)
 ```
+
+# webpack
+
+## import のパス
+
+client/app/以下、絶対パスで指定できるようにしている。
+https://zukucode.com/2017/04/webpack-absolute-path.html
+
+```webpack.base.config.js
+	, resolve: {
+		extensions: [".vue", ".js", ".json"]
+		, mainFiles: ["index"]
+		, alias: {
+			"images": path.resolve(__dirname, "..", "client", "images")
+			, "vue$": "vue/dist/vue.common.js"
+		}
+		,  modules: [
+			path.resolve("./client/app")
+			, path.resolve("./node_modules")
+		]
+	}
+```
+# 開発手順
+
+**画面の追加**
+
+1. service/presentation 以下にフォルダを作成し、`presenter.vue` と `view.vue` を用意
+2. `system/components/organisms/sidebar.vue` の <template> に追加する画面へのリンクを追加
+3. `system/router.js` で 2 で追加したリンクのURLに対するVueコンポーネント（ 1 の `presenter.vue` ）を設定
+
+**ユースケースの追加**
+
+1. `service/application/usecases.js` にユースケースの定義を追加
+2. service/application/stores 以下、ユースケースが属するドメインの Store に Actionとしてユースケースを記述（ビジネスロジックはできるだけ、ユースケース内で取り回すentityに持たせる）
+3. `presenter.vue` で 1 のユースケースを import し、 mapActionで method として利用できるようにする
+4. `presenter.vue` 内の呼びたい箇所で呼び出す

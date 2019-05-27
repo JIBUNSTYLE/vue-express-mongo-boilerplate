@@ -58,8 +58,6 @@ Domain Driven Design (Specified Clean Architeture) with Atomic Design.
 	import Vue from "vue";
     import AbstractPresenter from "system/mixins/abstractPresenter";
 	import HogehogeView from "./view"
-
-    import Task from "service/domain/entities/task";
 	
 	// import schema from "./schema";
     import { mapActions } from "vuex";
